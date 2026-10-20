@@ -1,5 +1,7 @@
 # Goal 定时任务与多 Agent 协作
 
+> **先记住一句话：** Goal 管“做到什么算完成”，定时任务管“什么时候再做”，多 Agent 管“谁和谁一起做”。
+
 ## Agent 的价值在任务跨越一个回合以后才真正出现
 
 一次问答可以解决“告诉我”。长期 Agent 要解决的是“替我推进”：任务可能持续几十分钟，等待用户输入，分给其他助手，每周重复执行，或者在应用重启后继续恢复。
@@ -43,6 +45,18 @@ Subagent 是树状任务关系，状态来自原生 session 投影；平级协�
 Google 在 2026 年总结 A2A 的定位时强调：Agent 不是普通的无状态 API，它需要动态对话、安全交接和跨系统协作。参见 [How A2A is Building a World of Collaborative Agents](https://developers.googleblog.com/how-a2a-is-building-a-world-of-collaborative-agents/)。
 
 JustDo 已经具备产品内多 Agent 会话、投递和协作 UI，但不能直接宣称已经实现 A2A 协议互操作。更准确的说法是：它已经验证了“协作 Agent 产品体验”，下一步可以评估用 A2A 暴露或接入跨厂商 Agent。
+
+## 实操：只盘点能力，不制造后台任务
+
+```text
+请实际检查当前工具目录中与 Goal、定时任务、子 Agent 协作有关的能力。
+不要创建目标、不要创建定时任务、不要派发任务；
+只列出找到的工具名称，并用“单次任务、长期目标、周期执行、并行协作”四层解释区别。
+```
+
+**实测结果：** Agent 找到 `create_goal`、`get_goal`、`update_goal`，以及 `sessions_spawn`、`sessions_send`、`subagents`、`agents_wait` 等协作工具；它没有执行任何创建或派发。当前会话目录没有暴露 cron 工具，因此结果明确写成“源码和桌面产品具备定时任务，但本轮工具目录未确认可调用”，而不是把源码存在误写成本轮已经授权。
+
+一句最容易记住的区分是：单次任务解决“做一次”，Goal 解决“何时算完成”，定时任务解决“何时再做一次”，多 Agent 解决“同时由谁分别做”。
 
 ## 一个生动场景
 

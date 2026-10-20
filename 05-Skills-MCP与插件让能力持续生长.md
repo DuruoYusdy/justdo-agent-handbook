@@ -38,6 +38,18 @@ JustDo 当前已经使用 MCP Apps 2.0 依赖并实现桌面宿主，但其本�
 
 JustDo 对压缩包路径穿越、绝对路径、符号链接、特殊文件和超大展开做检查；Extension 导入会审查 capability、operator grants、来源与 integrity，并用 review token 绑定同一内容。但 Extension 仍会进入 Gateway 的 Node 信任域，因此“通过审查”不等于“成为恶意代码沙箱”。
 
+## 实操：让 Agent 自己核对能力目录
+
+```text
+请实际检查当前可用的 Skill 和工具目录，回答三个问题：
+能否制作 PPTX、能否制作 XLSX、是否能通过工具搜索扩展能力。
+必须依据当前目录事实，不要凭印象回答，也不要创建文件。
+```
+
+**实测结果：** Agent 调用了 `tool_search`、`tool_describe`、`skills_search` 和 `skills_read`。它确认 PPTX 与 XLSX Skill 均已安装，同时主动指出 PPTX 的生成依赖尚未在本轮验证；XLSX Skill 明确声明提供 Python 与 `openpyxl`；工具搜索只能发现已安装、已授权的能力，不能凭搜索结果自动安装插件或扩大权限。
+
+这个结果比一句“支持 PPT、Excel”更可信：好的 Agent 不只列功能，还会区分“目录里有入口”“运行依赖已满足”和“本轮实际验证过”三个层次。
+
 ## 一条可复现的能力链
 
 用同一任务连续展示三层能力：
